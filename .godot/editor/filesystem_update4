@@ -1,8 +1,3 @@
-res://scripts/pressure_plate.gd
+res://scripts/phase_block.gd
+res://scripts/pressure_door.gd
 res://scripts/snake.gd
-res://scenes/player.tscn
-res://shaders/spiral_object.gdshader
-res://shaders/spiral_surface.gdshader
-res://shaders/spirit_world.gdshader
-res://scripts/phase_wall.gd
-res://scripts/player.gd

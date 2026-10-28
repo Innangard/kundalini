@@ -54,10 +54,34 @@ func plate_deactivated():
 
 func _open_door():
 	is_open = true
-	var tween = create_tween()
-	tween.tween_property(self, "position:y", closed_y + 3.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 
 func _close_door():
 	is_open = false
-	var tween = create_tween()
-	tween.tween_property(self, "position:y", closed_y, 1.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+
+func _physics_process(delta):
+	# Slide toward open (3 m up) or closed at 3 m/s
+	var target = closed_y + (3.0 if is_open else 0.0)
+	if position.y < target:
+		position.y = min(position.y + 3.0 * delta, target)
+	elif position.y > target:
+		_push_player_out()
+		position.y = max(position.y - 3.0 * delta, target)
+
+func _push_player_out():
+	# A closing door never traps the player: anyone under it is moved out to their side
+	var box = BoxShape3D.new()
+	box.size = door_size - Vector3(0.04, 0.04, 0.04)
+	var params = PhysicsShapeQueryParameters3D.new()
+	params.shape = box
+	params.transform = global_transform
+	params.collision_mask = 2
+	params.exclude = [get_rid()]
+	for hit in get_world_3d().direct_space_state.intersect_shape(params, 2):
+		var body = hit["collider"]
+		var local = global_transform.affine_inverse() * body.global_position
+		if door_size.x < door_size.z:
+			local.x = (1.0 if local.x >= 0.0 else -1.0) * (door_size.x * 0.5 + 0.36)
+		else:
+			local.z = (1.0 if local.z >= 0.0 else -1.0) * (door_size.z * 0.5 + 0.36)
+		var w = global_transform * local
+		body.global_position = Vector3(w.x, body.global_position.y, w.z)

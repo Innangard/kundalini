@@ -67,6 +67,9 @@ func blocks_toggle(to_spirit: bool) -> bool:
 		# Phase walls that will vanish in the new world don't count
 		if other.has_method("_exists_in") and other.is_in_group("phase") and not other._exists_in(to_spirit):
 			continue
+		# Cord blocks slide through ghosts; physics separates them when we reappear
+		if other.has_method("constrain_drag"):
+			continue
 		shimmer_time = 0.8
 		return true
 	return false

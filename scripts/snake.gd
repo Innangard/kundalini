@@ -133,6 +133,11 @@ func _unhandled_input(event):
 		# C pressed — toggle constrict
 		if constricting:
 			_release_constrict()
+		elif bitten_object != null:
+			# Already holding something in the jaws: wrap it where it is
+			var obj = bitten_object
+			bitten_object = null
+			_start_constrict(obj)
 		elif current_length < 0.05 and bitten_object == null and not constrict_seek:
 			constrict_seek = true
 	elif not event.pressed:
@@ -341,11 +346,21 @@ func _bite(obj: RigidBody3D):
 	bite_y = obj.global_position.y
 	bitten_object.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 	bitten_object.freeze = true
+	if obj.has_method("snake_grab"):
+		obj.snake_grab()
 
 func _move_bitten(obj_pos: Vector3):
 	# Dragged blocks used to phase through walls because their position is set directly.
 	# Now: if the next position would overlap a wall (layer 1) or another block (layer 8),
 	# the snake lets go and the block stays where it is.
+	if bitten_object.has_method("constrain_drag"):
+		var on_track = bitten_object.constrain_drag(obj_pos)
+		if not _drag_blocked(on_track):
+			bitten_object.global_position = on_track
+		else:
+			# Hit something: stay where it is, still in the jaws (C can wrap it now)
+			bitten_object.constrain_drag(bitten_object.global_position)
+		return
 	if _drag_blocked(obj_pos):
 		_release_bite()
 		return
@@ -373,6 +388,10 @@ func _drag_blocked(obj_pos: Vector3) -> bool:
 	return hits.size() > 0
 
 func _release_bite():
+	if bitten_object and bitten_object.has_method("snake_release"):
+		bitten_object.snake_release()
+		bitten_object = null
+		return
 	if bitten_object:
 		bitten_object.freeze = false
 		bitten_object.freeze_mode = RigidBody3D.FREEZE_MODE_STATIC
@@ -387,6 +406,8 @@ func _start_constrict(obj: RigidBody3D):
 	# Freeze the target in place
 	obj.freeze_mode = RigidBody3D.FREEZE_MODE_KINEMATIC
 	obj.freeze = true
+	if obj.has_method("snake_grab"):
+		obj.snake_grab()
 	mouth_open = 0.0
 	var gm = get_node_or_null("/root/GameManager")
 	if gm:
@@ -461,6 +482,9 @@ func _process_constrict(delta):
 	_update_body_glow()
 
 func _release_constrict():
+	if constrict_target and constrict_target.has_method("snake_release"):
+		constrict_target.snake_release()
+		constrict_target = null
 	if constrict_target:
 		constrict_target.freeze = false
 		constrict_target.freeze_mode = RigidBody3D.FREEZE_MODE_STATIC
