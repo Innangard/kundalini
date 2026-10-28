@@ -1,0 +1,3114 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://ck2vm1c8jb3kg" path="res://scenes/player.tscn" id="player"]
+[ext_resource type="Script" uid="uid://dyiixtghydml7" path="res://scripts/spirit_orb.gd" id="orb"]
+[ext_resource type="Script" uid="uid://bhgj5nn7uvx57" path="res://scripts/breakable_wall.gd" id="bwall"]
+[ext_resource type="Script" uid="uid://c7dov2kbko75o" path="res://scripts/pressure_plate.gd" id="plate"]
+[ext_resource type="Script" uid="uid://btqq26gd81o84" path="res://scripts/pressure_door.gd" id="pdoor"]
+[ext_resource type="Script" uid="uid://dnhwiffdv1u7c" path="res://scripts/pushable_block.gd" id="block"]
+[ext_resource type="Script" uid="uid://berc6cr47aq3b" path="res://scripts/level_complete.gd" id="lcomp"]
+[ext_resource type="Script" uid="uid://hfyl6opcofqt" path="res://scripts/level_bounds.gd" id="bounds"]
+[ext_resource type="Script" uid="uid://dgai5jolxhoxp" path="res://scripts/house_decor.gd" id="decor"]
+[ext_resource type="Script" uid="uid://cmrbei6awkvir" path="res://scripts/house_props.gd" id="props"]
+[ext_resource type="Script" uid="uid://cl5ueo2j05eb0" path="res://scripts/spirit_portal.gd" id="portal"]
+[ext_resource type="Script" uid="uid://8u298srp57r2h" path="res://scripts/brazier.gd" id="brazier"]
+[ext_resource type="Script" uid="uid://b85wb2coefvh8" path="res://scripts/orb_well.gd" id="well"]
+
+[sub_resource type="Environment" id="env_level3"]
+ambient_light_source = 1
+ambient_light_color = Color(0.22, 0.2, 0.26, 1)
+ambient_light_energy = 0.3
+fog_enabled = true
+fog_light_color = Color(0.12, 0.1, 0.15, 1)
+fog_density = 0.012
+
+[sub_resource type="StandardMaterial3D" id="mat_floor"]
+albedo_color = Color(0.2, 0.17, 0.24, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="mat_wall"]
+albedo_color = Color(0.58, 0.55, 0.62, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="mat_ceiling"]
+albedo_color = Color(0.65, 0.62, 0.68, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="mat_door"]
+albedo_color = Color(0.4, 0.2, 0.35, 1)
+emission_enabled = true
+emission = Color(0.15, 0.05, 0.12, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="mat_breakable"]
+albedo_color = Color(0.35, 0.25, 0.35, 1)
+emission_enabled = true
+emission = Color(0.15, 0.05, 0.15, 1)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="StandardMaterial3D" id="mat_block"]
+albedo_color = Color(0.3, 0.45, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_wood"]
+albedo_color = Color(0.32, 0.22, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="mat_stone"]
+albedo_color = Color(0.4, 0.37, 0.42, 1)
+roughness = 0.95
+
+[sub_resource type="BoxShape3D" id="shape_1"]
+size = Vector3(4.5, 0.2, 4.5)
+
+[sub_resource type="BoxMesh" id="mesh_2"]
+material = SubResource("mat_floor")
+size = Vector3(4.5, 0.2, 4.5)
+
+[sub_resource type="BoxShape3D" id="shape_3"]
+size = Vector3(4.5, 0.1, 4.5)
+
+[sub_resource type="BoxMesh" id="mesh_4"]
+material = SubResource("mat_ceiling")
+size = Vector3(4.5, 0.1, 4.5)
+
+[sub_resource type="BoxShape3D" id="shape_5"]
+size = Vector3(4.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_6"]
+material = SubResource("mat_wall")
+size = Vector3(4.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_7"]
+size = Vector3(0.25, 3, 4)
+
+[sub_resource type="BoxMesh" id="mesh_8"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 4)
+
+[sub_resource type="BoxShape3D" id="shape_9"]
+size = Vector3(0.25, 3, 1)
+
+[sub_resource type="BoxMesh" id="mesh_10"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 1)
+
+[sub_resource type="BoxShape3D" id="shape_11"]
+size = Vector3(1.5, 0.2, 2.5)
+
+[sub_resource type="BoxMesh" id="mesh_12"]
+material = SubResource("mat_floor")
+size = Vector3(1.5, 0.2, 2.5)
+
+[sub_resource type="BoxShape3D" id="shape_13"]
+size = Vector3(1.5, 0.1, 2.5)
+
+[sub_resource type="BoxMesh" id="mesh_14"]
+material = SubResource("mat_ceiling")
+size = Vector3(1.5, 0.1, 2.5)
+
+[sub_resource type="BoxShape3D" id="shape_15"]
+size = Vector3(2, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_16"]
+material = SubResource("mat_wall")
+size = Vector3(2, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_17"]
+size = Vector3(10.5, 0.2, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_18"]
+material = SubResource("mat_floor")
+size = Vector3(10.5, 0.2, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_19"]
+size = Vector3(10.5, 0.1, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_20"]
+material = SubResource("mat_ceiling")
+size = Vector3(10.5, 0.1, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_21"]
+size = Vector3(10.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_22"]
+material = SubResource("mat_wall")
+size = Vector3(10.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_23"]
+size = Vector3(0.25, 3, 3)
+
+[sub_resource type="BoxMesh" id="mesh_24"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 3)
+
+[sub_resource type="BoxShape3D" id="shape_25"]
+size = Vector3(2, 0.75, 1.2)
+
+[sub_resource type="BoxMesh" id="mesh_26"]
+material = SubResource("mat_wood")
+size = Vector3(2, 0.75, 1.2)
+
+[sub_resource type="BoxShape3D" id="shape_27"]
+size = Vector3(0.5, 0.7, 0.5)
+
+[sub_resource type="BoxMesh" id="mesh_28"]
+material = SubResource("mat_wood")
+size = Vector3(0.5, 0.7, 0.5)
+
+[sub_resource type="BoxShape3D" id="shape_29"]
+size = Vector3(3.5, 0.2, 2.5)
+
+[sub_resource type="BoxMesh" id="mesh_30"]
+material = SubResource("mat_floor")
+size = Vector3(3.5, 0.2, 2.5)
+
+[sub_resource type="BoxShape3D" id="shape_31"]
+size = Vector3(3.5, 0.1, 2.5)
+
+[sub_resource type="BoxMesh" id="mesh_32"]
+material = SubResource("mat_ceiling")
+size = Vector3(3.5, 0.1, 2.5)
+
+[sub_resource type="BoxShape3D" id="shape_33"]
+size = Vector3(4, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_34"]
+material = SubResource("mat_wall")
+size = Vector3(4, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_35"]
+material = SubResource("mat_breakable")
+size = Vector3(0.25, 3, 2)
+
+[sub_resource type="BoxShape3D" id="shape_36"]
+size = Vector3(0.25, 3, 2)
+
+[sub_resource type="BoxMesh" id="mesh_37"]
+material = SubResource("mat_door")
+size = Vector3(0.25, 3, 2)
+
+[sub_resource type="BoxShape3D" id="shape_38"]
+size = Vector3(18.5, 0.2, 18.5)
+
+[sub_resource type="BoxMesh" id="mesh_39"]
+material = SubResource("mat_floor")
+size = Vector3(18.5, 0.2, 18.5)
+
+[sub_resource type="BoxShape3D" id="shape_40"]
+size = Vector3(18.5, 0.1, 18.5)
+
+[sub_resource type="BoxMesh" id="mesh_41"]
+material = SubResource("mat_ceiling")
+size = Vector3(18.5, 0.1, 18.5)
+
+[sub_resource type="BoxShape3D" id="shape_42"]
+size = Vector3(8.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_43"]
+material = SubResource("mat_wall")
+size = Vector3(8.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_44"]
+size = Vector3(0.25, 3, 8)
+
+[sub_resource type="BoxMesh" id="mesh_45"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 8)
+
+[sub_resource type="BoxShape3D" id="shape_46"]
+size = Vector3(0.25, 3, 7.75)
+
+[sub_resource type="BoxMesh" id="mesh_47"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 7.75)
+
+[sub_resource type="BoxShape3D" id="shape_48"]
+size = Vector3(0.5, 3, 0.5)
+
+[sub_resource type="BoxMesh" id="mesh_49"]
+material = SubResource("mat_stone")
+size = Vector3(0.5, 3, 0.5)
+
+[sub_resource type="BoxShape3D" id="shape_50"]
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="BoxMesh" id="mesh_51"]
+material = SubResource("mat_wood")
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="BoxShape3D" id="shape_52"]
+size = Vector3(1, 0.35, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_53"]
+material = SubResource("mat_wood")
+size = Vector3(1, 0.35, 0.6)
+
+[sub_resource type="BoxShape3D" id="shape_54"]
+size = Vector3(2.5, 0.2, 5.5)
+
+[sub_resource type="BoxMesh" id="mesh_55"]
+material = SubResource("mat_floor")
+size = Vector3(2.5, 0.2, 5.5)
+
+[sub_resource type="BoxShape3D" id="shape_56"]
+size = Vector3(2.5, 0.1, 5.5)
+
+[sub_resource type="BoxMesh" id="mesh_57"]
+material = SubResource("mat_ceiling")
+size = Vector3(2.5, 0.1, 5.5)
+
+[sub_resource type="BoxShape3D" id="shape_58"]
+size = Vector3(0.25, 3, 5.5)
+
+[sub_resource type="BoxMesh" id="mesh_59"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 5.5)
+
+[sub_resource type="BoxShape3D" id="shape_60"]
+size = Vector3(18.5, 0.2, 12.5)
+
+[sub_resource type="BoxMesh" id="mesh_61"]
+material = SubResource("mat_floor")
+size = Vector3(18.5, 0.2, 12.5)
+
+[sub_resource type="BoxShape3D" id="shape_62"]
+size = Vector3(18.5, 0.1, 12.5)
+
+[sub_resource type="BoxMesh" id="mesh_63"]
+material = SubResource("mat_ceiling")
+size = Vector3(18.5, 0.1, 12.5)
+
+[sub_resource type="BoxShape3D" id="shape_64"]
+size = Vector3(8.65, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_65"]
+material = SubResource("mat_wall")
+size = Vector3(8.65, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_66"]
+size = Vector3(0.25, 3, 5.25)
+
+[sub_resource type="BoxMesh" id="mesh_67"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 5.25)
+
+[sub_resource type="BoxShape3D" id="shape_68"]
+size = Vector3(0.25, 3, 12)
+
+[sub_resource type="BoxMesh" id="mesh_69"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 12)
+
+[sub_resource type="BoxShape3D" id="shape_70"]
+size = Vector3(1.2, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_71"]
+material = SubResource("mat_door")
+size = Vector3(1.2, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_72"]
+material = SubResource("mat_block")
+size = Vector3(0.7, 0.7, 0.7)
+
+[sub_resource type="BoxShape3D" id="shape_73"]
+size = Vector3(0.8, 0.85, 2)
+
+[sub_resource type="BoxMesh" id="mesh_74"]
+material = SubResource("mat_wood")
+size = Vector3(0.8, 0.85, 2)
+
+[sub_resource type="BoxShape3D" id="shape_75"]
+size = Vector3(4.5, 0.2, 4)
+
+[sub_resource type="BoxMesh" id="mesh_76"]
+material = SubResource("mat_floor")
+size = Vector3(4.5, 0.2, 4)
+
+[sub_resource type="BoxShape3D" id="shape_77"]
+size = Vector3(4.5, 0.1, 4)
+
+[sub_resource type="BoxMesh" id="mesh_78"]
+material = SubResource("mat_ceiling")
+size = Vector3(4.5, 0.1, 4)
+
+[sub_resource type="BoxShape3D" id="shape_79"]
+size = Vector3(0.25, 3, 3.75)
+
+[sub_resource type="BoxMesh" id="mesh_80"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 3.75)
+
+[sub_resource type="BoxShape3D" id="shape_81"]
+size = Vector3(4, 0.2, 4.5)
+
+[sub_resource type="BoxMesh" id="mesh_82"]
+material = SubResource("mat_floor")
+size = Vector3(4, 0.2, 4.5)
+
+[sub_resource type="BoxShape3D" id="shape_83"]
+size = Vector3(4, 0.1, 4.5)
+
+[sub_resource type="BoxMesh" id="mesh_84"]
+material = SubResource("mat_ceiling")
+size = Vector3(4, 0.1, 4.5)
+
+[sub_resource type="BoxShape3D" id="shape_85"]
+size = Vector3(4.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_86"]
+material = SubResource("mat_wall")
+size = Vector3(4.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_87"]
+material = SubResource("mat_breakable")
+size = Vector3(0.25, 3, 1.5)
+
+[sub_resource type="BoxShape3D" id="shape_88"]
+size = Vector3(0.25, 3, 1.5)
+
+[sub_resource type="BoxShape3D" id="shape_89"]
+size = Vector3(4.65, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_90"]
+material = SubResource("mat_wall")
+size = Vector3(4.65, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_91"]
+size = Vector3(2.8, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_92"]
+material = SubResource("mat_wall")
+size = Vector3(2.8, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_93"]
+size = Vector3(0.25, 3, 5.125)
+
+[sub_resource type="BoxMesh" id="mesh_94"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 5.125)
+
+[sub_resource type="BoxShape3D" id="shape_95"]
+size = Vector3(2.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_96"]
+material = SubResource("mat_wall")
+size = Vector3(2.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_97"]
+size = Vector3(3.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_98"]
+material = SubResource("mat_wall")
+size = Vector3(3.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_99"]
+size = Vector3(0.25, 3, 2.75)
+
+[sub_resource type="BoxMesh" id="mesh_100"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 2.75)
+
+[sub_resource type="BoxMesh" id="mesh_101"]
+material = SubResource("mat_breakable")
+size = Vector3(1.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_102"]
+size = Vector3(1.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_103"]
+size = Vector3(18.5, 0.2, 6)
+
+[sub_resource type="BoxMesh" id="mesh_104"]
+material = SubResource("mat_floor")
+size = Vector3(18.5, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="shape_105"]
+size = Vector3(18.5, 0.1, 6)
+
+[sub_resource type="BoxMesh" id="mesh_106"]
+material = SubResource("mat_ceiling")
+size = Vector3(18.5, 0.1, 6)
+
+[sub_resource type="BoxShape3D" id="shape_107"]
+size = Vector3(18.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_108"]
+material = SubResource("mat_wall")
+size = Vector3(18.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_109"]
+size = Vector3(0.25, 3, 5.75)
+
+[sub_resource type="BoxMesh" id="mesh_110"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 5.75)
+
+[sub_resource type="BoxShape3D" id="shape_111"]
+size = Vector3(0.25, 3, 2.65)
+
+[sub_resource type="BoxMesh" id="mesh_112"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 2.65)
+
+[sub_resource type="BoxShape3D" id="shape_113"]
+size = Vector3(0.25, 3, 1.9)
+
+[sub_resource type="BoxMesh" id="mesh_114"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 1.9)
+
+[sub_resource type="BoxShape3D" id="shape_115"]
+size = Vector3(6, 0.2, 14.5)
+
+[sub_resource type="BoxMesh" id="mesh_116"]
+material = SubResource("mat_floor")
+size = Vector3(6, 0.2, 14.5)
+
+[sub_resource type="BoxShape3D" id="shape_117"]
+size = Vector3(6, 0.1, 14.5)
+
+[sub_resource type="BoxMesh" id="mesh_118"]
+material = SubResource("mat_ceiling")
+size = Vector3(6, 0.1, 14.5)
+
+[sub_resource type="BoxShape3D" id="shape_119"]
+size = Vector3(6.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_120"]
+material = SubResource("mat_wall")
+size = Vector3(6.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_121"]
+size = Vector3(0.25, 3, 14)
+
+[sub_resource type="BoxMesh" id="mesh_122"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 14)
+
+[sub_resource type="BoxShape3D" id="shape_123"]
+size = Vector3(0.25, 3, 1.75)
+
+[sub_resource type="BoxMesh" id="mesh_124"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 1.75)
+
+[sub_resource type="BoxShape3D" id="shape_125"]
+size = Vector3(0.4, 2, 1.2)
+
+[sub_resource type="BoxMesh" id="mesh_126"]
+material = SubResource("mat_wood")
+size = Vector3(0.4, 2, 1.2)
+
+[sub_resource type="BoxShape3D" id="shape_127"]
+size = Vector3(13.5, 0.2, 3)
+
+[sub_resource type="BoxMesh" id="mesh_128"]
+material = SubResource("mat_floor")
+size = Vector3(13.5, 0.2, 3)
+
+[sub_resource type="BoxShape3D" id="shape_129"]
+size = Vector3(13.5, 0.1, 3)
+
+[sub_resource type="BoxMesh" id="mesh_130"]
+material = SubResource("mat_ceiling")
+size = Vector3(13.5, 0.1, 3)
+
+[sub_resource type="BoxShape3D" id="shape_131"]
+size = Vector3(9, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_132"]
+material = SubResource("mat_wall")
+size = Vector3(9, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_133"]
+size = Vector3(3, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_134"]
+material = SubResource("mat_wall")
+size = Vector3(3, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_135"]
+size = Vector3(2.5, 0.2, 8.25)
+
+[sub_resource type="BoxMesh" id="mesh_136"]
+material = SubResource("mat_floor")
+size = Vector3(2.5, 0.2, 8.25)
+
+[sub_resource type="BoxShape3D" id="shape_137"]
+size = Vector3(2.5, 0.1, 8.25)
+
+[sub_resource type="BoxMesh" id="mesh_138"]
+material = SubResource("mat_ceiling")
+size = Vector3(2.5, 0.1, 8.25)
+
+[sub_resource type="BoxShape3D" id="shape_139"]
+size = Vector3(0.25, 3, 8.25)
+
+[sub_resource type="BoxMesh" id="mesh_140"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 8.25)
+
+[sub_resource type="BoxShape3D" id="shape_141"]
+size = Vector3(18.5, 0.2, 9)
+
+[sub_resource type="BoxMesh" id="mesh_142"]
+material = SubResource("mat_floor")
+size = Vector3(18.5, 0.2, 9)
+
+[sub_resource type="BoxShape3D" id="shape_143"]
+size = Vector3(18.5, 0.1, 9)
+
+[sub_resource type="BoxMesh" id="mesh_144"]
+material = SubResource("mat_ceiling")
+size = Vector3(18.5, 0.1, 9)
+
+[sub_resource type="BoxShape3D" id="shape_145"]
+size = Vector3(10.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_146"]
+material = SubResource("mat_wall")
+size = Vector3(10.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_147"]
+size = Vector3(0.25, 3, 8.75)
+
+[sub_resource type="BoxMesh" id="mesh_148"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 8.75)
+
+[sub_resource type="BoxShape3D" id="shape_149"]
+size = Vector3(9.25, 0.2, 7.5)
+
+[sub_resource type="BoxMesh" id="mesh_150"]
+material = SubResource("mat_floor")
+size = Vector3(9.25, 0.2, 7.5)
+
+[sub_resource type="BoxShape3D" id="shape_151"]
+size = Vector3(9.25, 0.1, 7.5)
+
+[sub_resource type="BoxMesh" id="mesh_152"]
+material = SubResource("mat_ceiling")
+size = Vector3(9.25, 0.1, 7.5)
+
+[sub_resource type="BoxShape3D" id="shape_153"]
+size = Vector3(9.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_154"]
+material = SubResource("mat_wall")
+size = Vector3(9.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_155"]
+size = Vector3(4.75, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_156"]
+material = SubResource("mat_wall")
+size = Vector3(4.75, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_157"]
+size = Vector3(0.25, 3, 7)
+
+[sub_resource type="BoxMesh" id="mesh_158"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 7)
+
+[sub_resource type="BoxShape3D" id="shape_159"]
+size = Vector3(9.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_160"]
+material = SubResource("mat_wall")
+size = Vector3(9.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_161"]
+size = Vector3(2.75, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_162"]
+material = SubResource("mat_wall")
+size = Vector3(2.75, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_163"]
+size = Vector3(5.75, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_164"]
+material = SubResource("mat_wall")
+size = Vector3(5.75, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_165"]
+size = Vector3(1, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_166"]
+material = SubResource("mat_door")
+size = Vector3(1, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_167"]
+size = Vector3(16.5, 0.2, 14.5)
+
+[sub_resource type="BoxMesh" id="mesh_168"]
+material = SubResource("mat_floor")
+size = Vector3(16.5, 0.2, 14.5)
+
+[sub_resource type="BoxShape3D" id="shape_169"]
+size = Vector3(16.5, 0.1, 14.5)
+
+[sub_resource type="BoxMesh" id="mesh_170"]
+material = SubResource("mat_ceiling")
+size = Vector3(16.5, 0.1, 14.5)
+
+[sub_resource type="BoxShape3D" id="shape_171"]
+size = Vector3(12.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_172"]
+material = SubResource("mat_wall")
+size = Vector3(12.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_173"]
+size = Vector3(16.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_174"]
+material = SubResource("mat_wall")
+size = Vector3(16.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_175"]
+size = Vector3(3.975, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_176"]
+material = SubResource("mat_wall")
+size = Vector3(3.975, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_177"]
+size = Vector3(0.25, 3, 1.1)
+
+[sub_resource type="BoxMesh" id="mesh_178"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 1.1)
+
+[sub_resource type="BoxShape3D" id="shape_179"]
+size = Vector3(0.25, 3, 6.15)
+
+[sub_resource type="BoxMesh" id="mesh_180"]
+material = SubResource("mat_wall")
+size = Vector3(0.25, 3, 6.15)
+
+[sub_resource type="BoxShape3D" id="shape_181"]
+size = Vector3(3.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_182"]
+material = SubResource("mat_wall")
+size = Vector3(3.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_183"]
+material = SubResource("mat_door")
+size = Vector3(1.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_184"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="mesh_185"]
+material = SubResource("mat_wood")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="shape_186"]
+size = Vector3(6.5, 0.2, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_187"]
+material = SubResource("mat_floor")
+size = Vector3(6.5, 0.2, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_188"]
+size = Vector3(6.5, 0.1, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_189"]
+material = SubResource("mat_ceiling")
+size = Vector3(6.5, 0.1, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_190"]
+size = Vector3(6.5, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="mesh_191"]
+material = SubResource("mat_wall")
+size = Vector3(6.5, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="shape_192"]
+size = Vector3(0.25, 3, 2.5)
+
+[sub_resource type="BoxMesh" id="mesh_193"]
+material = SubResource("mat_door")
+size = Vector3(0.25, 3, 2.5)
+
+[sub_resource type="BoxShape3D" id="shape_194"]
+size = Vector3(8, 0.2, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_195"]
+material = SubResource("mat_floor")
+size = Vector3(8, 0.2, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_196"]
+size = Vector3(8, 0.1, 8.5)
+
+[sub_resource type="BoxMesh" id="mesh_197"]
+material = SubResource("mat_ceiling")
+size = Vector3(8, 0.1, 8.5)
+
+[sub_resource type="BoxShape3D" id="shape_198"]
+size = Vector3(0.6, 1.5, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_199"]
+material = SubResource("mat_stone")
+size = Vector3(0.6, 1.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="shape_200"]
+size = Vector3(1.5, 2, 1.5)
+
+[node name="Level3" type="Node3D"]
+
+[node name="WorldLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.433, 0.25, 0, 0.5, 0.866, -0.5, -0.75, 0.433, 0, 10, 0)
+light_color = Color(0.9, 0.88, 1, 1)
+light_energy = 0.1
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env_level3")
+
+; ===== Spawn =====
+[node name="Floor_Spawn" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Spawn"]
+shape = SubResource("shape_1")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Spawn"]
+mesh = SubResource("mesh_2")
+
+[node name="Ceiling_Spawn" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Spawn"]
+shape = SubResource("shape_3")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Spawn"]
+mesh = SubResource("mesh_4")
+
+[node name="Wall_Spawn_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.5, -2.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Spawn_N_1"]
+shape = SubResource("shape_5")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Spawn_N_1"]
+mesh = SubResource("mesh_6")
+
+[node name="Wall_Spawn_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.5, 2.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Spawn_S_1"]
+shape = SubResource("shape_5")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Spawn_S_1"]
+mesh = SubResource("mesh_6")
+
+[node name="Wall_Spawn_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.125, 1.5, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Spawn_W_1"]
+shape = SubResource("shape_7")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Spawn_W_1"]
+mesh = SubResource("mesh_8")
+
+[node name="Wall_Spawn_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.125, 1.5, -1.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Spawn_E_1"]
+shape = SubResource("shape_9")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Spawn_E_1"]
+mesh = SubResource("mesh_10")
+
+[node name="Wall_Spawn_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.125, 1.5, 1.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Spawn_E_2"]
+shape = SubResource("shape_9")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Spawn_E_2"]
+mesh = SubResource("mesh_10")
+
+[node name="Light_Spawn_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.45
+omni_range = 4.4
+
+; ===== CorrSpawn =====
+[node name="Floor_CorrSpawn" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrSpawn"]
+shape = SubResource("shape_11")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrSpawn"]
+mesh = SubResource("mesh_12")
+
+[node name="Ceiling_CorrSpawn" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrSpawn"]
+shape = SubResource("shape_13")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrSpawn"]
+mesh = SubResource("mesh_14")
+
+[node name="Wall_CorrSpawn_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, -1.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrSpawn_N_1"]
+shape = SubResource("shape_15")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrSpawn_N_1"]
+mesh = SubResource("mesh_16")
+
+[node name="Wall_CorrSpawn_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 1.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrSpawn_S_1"]
+shape = SubResource("shape_15")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrSpawn_S_1"]
+mesh = SubResource("mesh_16")
+
+[node name="Light_CorrSpawn_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 3.2
+
+; ===== Vestibule =====
+[node name="Floor_Vestibule" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Vestibule"]
+shape = SubResource("shape_17")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Vestibule"]
+mesh = SubResource("mesh_18")
+
+[node name="Ceiling_Vestibule" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Vestibule"]
+shape = SubResource("shape_19")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Vestibule"]
+mesh = SubResource("mesh_20")
+
+[node name="Wall_Vestibule_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, -4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_N_1"]
+shape = SubResource("shape_21")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_N_1"]
+mesh = SubResource("mesh_22")
+
+[node name="Wall_Vestibule_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, 4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_S_1"]
+shape = SubResource("shape_21")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_S_1"]
+mesh = SubResource("mesh_22")
+
+[node name="Wall_Vestibule_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.875, 1.5, -2.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_W_1"]
+shape = SubResource("shape_23")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_W_1"]
+mesh = SubResource("mesh_24")
+
+[node name="Wall_Vestibule_W_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.875, 1.5, 2.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_W_2"]
+shape = SubResource("shape_23")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_W_2"]
+mesh = SubResource("mesh_24")
+
+[node name="Wall_Vestibule_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.125, 1.5, -2.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_E_1"]
+shape = SubResource("shape_23")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_E_1"]
+mesh = SubResource("mesh_24")
+
+[node name="Wall_Vestibule_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.125, 1.5, 2.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Vestibule_E_2"]
+shape = SubResource("shape_23")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Vestibule_E_2"]
+mesh = SubResource("mesh_24")
+
+[node name="Light_Vestibule_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Vestibule_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+; Tutorial: eat at the well (spirit world, right-click), spit (Space) at the cracked wall,
+; then spit at the brazier to raise the shutter into the Great Hall.
+[node name="WellVestibule" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2.5)
+script = ExtResource("well")
+
+[node name="OrbVestibule1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.7, 2.6)
+script = ExtResource("orb")
+
+[node name="BrazierTutorial" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8, 0, 3)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../ShutterHall")])
+
+[node name="DiningTable" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.375, 3)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="DiningTable"]
+shape = SubResource("shape_25")
+
+[node name="Mesh" type="MeshInstance3D" parent="DiningTable"]
+mesh = SubResource("mesh_26")
+
+[node name="Chair1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.35, 1.95)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Chair1"]
+shape = SubResource("shape_27")
+
+[node name="Mesh" type="MeshInstance3D" parent="Chair1"]
+mesh = SubResource("mesh_28")
+
+[node name="Chair2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.35, 1.95)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Chair2"]
+shape = SubResource("shape_27")
+
+[node name="Mesh" type="MeshInstance3D" parent="Chair2"]
+mesh = SubResource("mesh_28")
+
+; ===== CorrHall =====
+[node name="Floor_CorrHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrHall"]
+shape = SubResource("shape_29")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrHall"]
+mesh = SubResource("mesh_30")
+
+[node name="Ceiling_CorrHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrHall"]
+shape = SubResource("shape_31")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrHall"]
+mesh = SubResource("mesh_32")
+
+[node name="Wall_CorrHall_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, -1.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrHall_N_1"]
+shape = SubResource("shape_33")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrHall_N_1"]
+mesh = SubResource("mesh_34")
+
+[node name="Wall_CorrHall_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1.5, 1.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrHall_S_1"]
+shape = SubResource("shape_33")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrHall_S_1"]
+mesh = SubResource("mesh_34")
+
+[node name="Light_CorrHall_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 4.1
+
+[node name="CrackedWallTutorial" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.25, 1.5, 0)
+collision_layer = 129
+collision_mask = 0
+script = ExtResource("bwall")
+
+[node name="WallMesh" type="MeshInstance3D" parent="CrackedWallTutorial"]
+mesh = SubResource("mesh_35")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CrackedWallTutorial"]
+shape = SubResource("shape_36")
+
+[node name="ShutterHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.5, 0)
+script = ExtResource("pdoor")
+required_plates = 1
+door_size = Vector3(0.25, 3, 2)
+stays_open = true
+
+[node name="Col" type="CollisionShape3D" parent="ShutterHall"]
+shape = SubResource("shape_36")
+
+[node name="Mesh" type="MeshInstance3D" parent="ShutterHall"]
+mesh = SubResource("mesh_37")
+
+; ===== GreatHall =====
+[node name="Floor_GreatHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_GreatHall"]
+shape = SubResource("shape_38")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_GreatHall"]
+mesh = SubResource("mesh_39")
+
+[node name="Ceiling_GreatHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_GreatHall"]
+shape = SubResource("shape_40")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_GreatHall"]
+mesh = SubResource("mesh_41")
+
+[node name="Wall_GreatHall_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.875, 1.5, -9.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_N_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_N_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_GreatHall_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.125, 1.5, -9.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_N_2"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_N_2"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_GreatHall_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.875, 1.5, 9.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_S_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_S_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_GreatHall_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.125, 1.5, 9.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_S_2"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_S_2"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_GreatHall_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, -5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_W_1"]
+shape = SubResource("shape_44")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_W_1"]
+mesh = SubResource("mesh_45")
+
+[node name="Wall_GreatHall_W_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, 5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_W_2"]
+shape = SubResource("shape_44")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_W_2"]
+mesh = SubResource("mesh_45")
+
+[node name="Wall_GreatHall_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, -5.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_E_1"]
+shape = SubResource("shape_46")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_E_1"]
+mesh = SubResource("mesh_47")
+
+[node name="Wall_GreatHall_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 5.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_GreatHall_E_2"]
+shape = SubResource("shape_46")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_GreatHall_E_2"]
+mesh = SubResource("mesh_47")
+
+[node name="Light_GreatHall_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2.6, -4.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.55
+omni_range = 8
+
+[node name="Light_GreatHall_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 2.6, -4.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.55
+omni_range = 8
+
+[node name="Light_GreatHall_3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2.6, 4.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.55
+omni_range = 8
+
+[node name="Light_GreatHall_4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 2.6, 4.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.55
+omni_range = 8
+
+[node name="WellHall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 0)
+script = ExtResource("well")
+
+[node name="Column1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.5, -5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Column1"]
+shape = SubResource("shape_48")
+
+[node name="Mesh" type="MeshInstance3D" parent="Column1"]
+mesh = SubResource("mesh_49")
+
+[node name="Column2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.5, -5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Column2"]
+shape = SubResource("shape_48")
+
+[node name="Mesh" type="MeshInstance3D" parent="Column2"]
+mesh = SubResource("mesh_49")
+
+[node name="Column3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.5, 5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Column3"]
+shape = SubResource("shape_48")
+
+[node name="Mesh" type="MeshInstance3D" parent="Column3"]
+mesh = SubResource("mesh_49")
+
+[node name="Column4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1.5, 5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Column4"]
+shape = SubResource("shape_48")
+
+[node name="Mesh" type="MeshInstance3D" parent="Column4"]
+mesh = SubResource("mesh_49")
+
+[node name="Crate1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6, 0.35, -8.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate1"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate1"]
+mesh = SubResource("mesh_51")
+
+[node name="Crate2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6, 0.35, 8.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate2"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate2"]
+mesh = SubResource("mesh_51")
+
+[node name="CoffeeTable" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0.175, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="CoffeeTable"]
+shape = SubResource("shape_52")
+
+[node name="Mesh" type="MeshInstance3D" parent="CoffeeTable"]
+mesh = SubResource("mesh_53")
+
+; Indicator braziers: each lights when its wing's great brazier is lit
+[node name="IndicatorNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 0, -6)
+script = ExtResource("brazier")
+spit_lightable = false
+
+[node name="IndicatorRelay" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 0, -3.5)
+script = ExtResource("brazier")
+spit_lightable = false
+
+[node name="IndicatorCrypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 0, 3.5)
+script = ExtResource("brazier")
+spit_lightable = false
+
+[node name="IndicatorCistern" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3, 0, 6)
+script = ExtResource("brazier")
+spit_lightable = false
+
+; ===== CorrNorth =====
+[node name="Floor_CorrNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, -12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrNorth"]
+shape = SubResource("shape_54")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrNorth"]
+mesh = SubResource("mesh_55")
+
+[node name="Ceiling_CorrNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, -12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrNorth"]
+shape = SubResource("shape_56")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrNorth"]
+mesh = SubResource("mesh_57")
+
+[node name="Wall_CorrNorth_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.875, 1.5, -12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrNorth_W_1"]
+shape = SubResource("shape_58")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrNorth_W_1"]
+mesh = SubResource("mesh_59")
+
+[node name="Wall_CorrNorth_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.125, 1.5, -12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrNorth_E_1"]
+shape = SubResource("shape_58")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrNorth_E_1"]
+mesh = SubResource("mesh_59")
+
+[node name="Light_CorrNorth_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2.6, -12)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 5.3
+
+; ===== Ossuary =====
+[node name="Floor_Ossuary" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Ossuary"]
+shape = SubResource("shape_60")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Ossuary"]
+mesh = SubResource("mesh_61")
+
+[node name="Ceiling_Ossuary" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Ossuary"]
+shape = SubResource("shape_62")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Ossuary"]
+mesh = SubResource("mesh_63")
+
+[node name="Wall_Ossuary_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.075, 1.5, -27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_N_1"]
+shape = SubResource("shape_64")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_N_1"]
+mesh = SubResource("mesh_65")
+
+[node name="Wall_Ossuary_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.925, 1.5, -27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_N_2"]
+shape = SubResource("shape_64")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_N_2"]
+mesh = SubResource("mesh_65")
+
+[node name="Wall_Ossuary_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.875, 1.5, -14.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_S_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_S_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Ossuary_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.125, 1.5, -14.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_S_2"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_S_2"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Ossuary_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, -24.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_W_1"]
+shape = SubResource("shape_66")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_W_1"]
+mesh = SubResource("mesh_67")
+
+[node name="Wall_Ossuary_W_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, -17.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_W_2"]
+shape = SubResource("shape_66")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_W_2"]
+mesh = SubResource("mesh_67")
+
+[node name="Wall_Ossuary_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ossuary_E_1"]
+shape = SubResource("shape_68")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ossuary_E_1"]
+mesh = SubResource("mesh_69")
+
+[node name="Light_Ossuary_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 2.6, -21)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Ossuary_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 2.6, -21)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+; Shutter over the niche is open only while the plate is held (by a block)
+[node name="ShutterOssuary" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, -27.125)
+script = ExtResource("pdoor")
+required_plates = 1
+door_size = Vector3(1.2, 3, 0.25)
+stays_open = false
+
+[node name="Col" type="CollisionShape3D" parent="ShutterOssuary"]
+shape = SubResource("shape_70")
+
+[node name="Mesh" type="MeshInstance3D" parent="ShutterOssuary"]
+mesh = SubResource("mesh_71")
+
+[node name="PlateOssuary" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.6, 0, -16.6)
+script = ExtResource("plate")
+target_path = NodePath("../ShutterOssuary")
+plate_size = Vector3(1.2, 0.05, 1.2)
+
+[node name="BlockOssuary1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0.35, -24)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockOssuary1"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockOssuary1"]
+mesh = SubResource("mesh_72")
+
+[node name="OrbOssuary1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0.7, -17)
+script = ExtResource("orb")
+
+[node name="OrbOssuary2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.7, -25)
+script = ExtResource("orb")
+
+[node name="Workbench1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.4, 0.425, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Workbench1"]
+shape = SubResource("shape_73")
+
+[node name="Mesh" type="MeshInstance3D" parent="Workbench1"]
+mesh = SubResource("mesh_74")
+
+[node name="Crate3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.4, 0.35, -26.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate3"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate3"]
+mesh = SubResource("mesh_51")
+
+; ===== OssuaryNiche =====
+[node name="Floor_OssuaryNiche" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, -29.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_OssuaryNiche"]
+shape = SubResource("shape_75")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_OssuaryNiche"]
+mesh = SubResource("mesh_76")
+
+[node name="Ceiling_OssuaryNiche" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, -29.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_OssuaryNiche"]
+shape = SubResource("shape_77")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_OssuaryNiche"]
+mesh = SubResource("mesh_78")
+
+[node name="Wall_OssuaryNiche_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, -31.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryNiche_N_1"]
+shape = SubResource("shape_5")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryNiche_N_1"]
+mesh = SubResource("mesh_6")
+
+[node name="Wall_OssuaryNiche_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.875, 1.5, -29.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryNiche_W_1"]
+shape = SubResource("shape_79")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryNiche_W_1"]
+mesh = SubResource("mesh_80")
+
+[node name="Wall_OssuaryNiche_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.125, 1.5, -29.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryNiche_E_1"]
+shape = SubResource("shape_79")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryNiche_E_1"]
+mesh = SubResource("mesh_80")
+
+[node name="Light_OssuaryNiche_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2.6, -29.125)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.35
+omni_range = 4.4
+
+[node name="GreatBrazierNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, -29.5)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../SanctumGate"), NodePath("../IndicatorNorth")])
+great = true
+
+; ===== OssuaryCloset =====
+[node name="Floor_OssuaryCloset" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.75, -0.1, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_OssuaryCloset"]
+shape = SubResource("shape_81")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_OssuaryCloset"]
+mesh = SubResource("mesh_82")
+
+[node name="Ceiling_OssuaryCloset" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.75, 3.05, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_OssuaryCloset"]
+shape = SubResource("shape_83")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_OssuaryCloset"]
+mesh = SubResource("mesh_84")
+
+[node name="Wall_OssuaryCloset_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.875, 1.5, -23.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryCloset_N_1"]
+shape = SubResource("shape_85")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryCloset_N_1"]
+mesh = SubResource("mesh_86")
+
+[node name="Wall_OssuaryCloset_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.875, 1.5, -18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryCloset_S_1"]
+shape = SubResource("shape_85")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryCloset_S_1"]
+mesh = SubResource("mesh_86")
+
+[node name="Wall_OssuaryCloset_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.875, 1.5, -21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_OssuaryCloset_W_1"]
+shape = SubResource("shape_7")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_OssuaryCloset_W_1"]
+mesh = SubResource("mesh_8")
+
+[node name="Light_OssuaryCloset_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.875, 2.6, -21)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 4.4
+
+[node name="CrackedWallCloset" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, -21)
+collision_layer = 129
+collision_mask = 0
+script = ExtResource("bwall")
+
+[node name="WallMesh" type="MeshInstance3D" parent="CrackedWallCloset"]
+mesh = SubResource("mesh_87")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CrackedWallCloset"]
+shape = SubResource("shape_88")
+
+[node name="BlockOssuary2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0.35, -21)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockOssuary2"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockOssuary2"]
+mesh = SubResource("mesh_72")
+
+[node name="OrbCloset" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.7, -22.3)
+script = ExtResource("orb")
+
+; ===== CorrSouth =====
+[node name="Floor_CorrSouth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, 12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrSouth"]
+shape = SubResource("shape_54")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrSouth"]
+mesh = SubResource("mesh_55")
+
+[node name="Ceiling_CorrSouth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, 12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrSouth"]
+shape = SubResource("shape_56")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrSouth"]
+mesh = SubResource("mesh_57")
+
+[node name="Wall_CorrSouth_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.875, 1.5, 12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrSouth_W_1"]
+shape = SubResource("shape_58")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrSouth_W_1"]
+mesh = SubResource("mesh_59")
+
+[node name="Wall_CorrSouth_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.125, 1.5, 12)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrSouth_E_1"]
+shape = SubResource("shape_58")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrSouth_E_1"]
+mesh = SubResource("mesh_59")
+
+[node name="Light_CorrSouth_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2.6, 12)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 5.3
+
+; ===== Cistern =====
+[node name="Floor_Cistern" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, 21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Cistern"]
+shape = SubResource("shape_60")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Cistern"]
+mesh = SubResource("mesh_61")
+
+[node name="Ceiling_Cistern" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, 21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Cistern"]
+shape = SubResource("shape_62")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Cistern"]
+mesh = SubResource("mesh_63")
+
+[node name="Wall_Cistern_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.875, 1.5, 14.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_N_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_N_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Cistern_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.125, 1.5, 14.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_N_2"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_N_2"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Cistern_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.075, 1.5, 27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_S_1"]
+shape = SubResource("shape_89")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_S_1"]
+mesh = SubResource("mesh_90")
+
+[node name="Wall_Cistern_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 1.5, 27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_S_2"]
+shape = SubResource("shape_91")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_S_2"]
+mesh = SubResource("mesh_92")
+
+[node name="Wall_Cistern_S_3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 1.5, 27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_S_3"]
+shape = SubResource("shape_91")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_S_3"]
+mesh = SubResource("mesh_92")
+
+[node name="Wall_Cistern_S_4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.925, 1.5, 27.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_S_4"]
+shape = SubResource("shape_89")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_S_4"]
+mesh = SubResource("mesh_90")
+
+[node name="Wall_Cistern_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, 21)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_W_1"]
+shape = SubResource("shape_68")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_W_1"]
+mesh = SubResource("mesh_69")
+
+[node name="Wall_Cistern_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 17.5625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_E_1"]
+shape = SubResource("shape_93")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_E_1"]
+mesh = SubResource("mesh_94")
+
+[node name="Wall_Cistern_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 24.4375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Cistern_E_2"]
+shape = SubResource("shape_93")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Cistern_E_2"]
+mesh = SubResource("mesh_94")
+
+[node name="Light_Cistern_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 2.6, 19)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Cistern_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 2.6, 19)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+; Three windows into the Reliquary, each plugged by a pushable block
+; West window: behind a cracked wall in a walled-off alcove
+[node name="Wall_CisternAlcove_Z_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.125, 1.5, 24.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CisternAlcove_Z_1"]
+shape = SubResource("shape_95")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CisternAlcove_Z_1"]
+mesh = SubResource("mesh_96")
+
+[node name="Wall_CisternAlcove_Z_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 1.5, 24.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CisternAlcove_Z_2"]
+shape = SubResource("shape_97")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CisternAlcove_Z_2"]
+mesh = SubResource("mesh_98")
+
+[node name="Wall_CisternAlcove_X_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.125, 1.5, 25.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CisternAlcove_X_1"]
+shape = SubResource("shape_99")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CisternAlcove_X_1"]
+mesh = SubResource("mesh_100")
+
+[node name="CrackedWallAlcove" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.5, 24.125)
+collision_layer = 129
+collision_mask = 0
+script = ExtResource("bwall")
+
+[node name="WallMesh" type="MeshInstance3D" parent="CrackedWallAlcove"]
+mesh = SubResource("mesh_101")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CrackedWallAlcove"]
+shape = SubResource("shape_102")
+
+[node name="BlockWindowWest" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0.35, 27.125)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockWindowWest"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockWindowWest"]
+mesh = SubResource("mesh_72")
+
+; Middle window: two blocks in a row, clear both
+[node name="BlockWindowMid1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.35, 27.125)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockWindowMid1"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockWindowMid1"]
+mesh = SubResource("mesh_72")
+
+[node name="BlockWindowMid2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.35, 26.4)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockWindowMid2"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockWindowMid2"]
+mesh = SubResource("mesh_72")
+
+; East window: block sits on the far side, reach the snake through and pull it out
+[node name="BlockWindowEast" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0.35, 27.62)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockWindowEast"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockWindowEast"]
+mesh = SubResource("mesh_72")
+
+[node name="WellCistern" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 17)
+script = ExtResource("well")
+
+[node name="OrbCistern1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.5, 0.7, 17)
+script = ExtResource("orb")
+
+[node name="OrbCistern2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0.7, 20)
+script = ExtResource("orb")
+
+[node name="Crate4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.6, 0.35, 15.6)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate4"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate4"]
+mesh = SubResource("mesh_51")
+
+[node name="Crate5" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.4, 0.35, 15.6)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate5"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate5"]
+mesh = SubResource("mesh_51")
+
+; ===== Reliquary =====
+[node name="Floor_Reliquary" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.1, 30.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Reliquary"]
+shape = SubResource("shape_103")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Reliquary"]
+mesh = SubResource("mesh_104")
+
+[node name="Ceiling_Reliquary" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3.05, 30.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Reliquary"]
+shape = SubResource("shape_105")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Reliquary"]
+mesh = SubResource("mesh_106")
+
+[node name="Wall_Reliquary_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 1.5, 33.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Reliquary_S_1"]
+shape = SubResource("shape_107")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Reliquary_S_1"]
+mesh = SubResource("mesh_108")
+
+[node name="Wall_Reliquary_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.875, 1.5, 30.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Reliquary_W_1"]
+shape = SubResource("shape_109")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Reliquary_W_1"]
+mesh = SubResource("mesh_110")
+
+[node name="Wall_Reliquary_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 28.575)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Reliquary_E_1"]
+shape = SubResource("shape_111")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Reliquary_E_1"]
+mesh = SubResource("mesh_112")
+
+[node name="Wall_Reliquary_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 32.05)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Reliquary_E_2"]
+shape = SubResource("shape_113")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Reliquary_E_2"]
+mesh = SubResource("mesh_114")
+
+[node name="Light_Reliquary_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2.6, 30.125)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.35
+omni_range = 12.8
+
+[node name="GreatBrazierSouth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 32)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../SanctumGate"), NodePath("../IndicatorCistern")])
+great = true
+
+; Fourth window, only reachable from the secret chamber
+[node name="BlockWindowSecret" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 0.35, 30.5)
+collision_layer = 8
+collision_mask = 15
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+mass = 3.0
+script = ExtResource("block")
+
+[node name="Col" type="CollisionShape3D" parent="BlockWindowSecret"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="BlockWindowSecret"]
+mesh = SubResource("mesh_72")
+
+; ===== SecretChamber =====
+[node name="Floor_SecretChamber" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.25, -0.1, 26)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_SecretChamber"]
+shape = SubResource("shape_115")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_SecretChamber"]
+mesh = SubResource("mesh_116")
+
+[node name="Ceiling_SecretChamber" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.25, 3.05, 26)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_SecretChamber"]
+shape = SubResource("shape_117")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_SecretChamber"]
+mesh = SubResource("mesh_118")
+
+[node name="Wall_SecretChamber_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.125, 1.5, 18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_SecretChamber_N_1"]
+shape = SubResource("shape_119")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_SecretChamber_N_1"]
+mesh = SubResource("mesh_120")
+
+[node name="Wall_SecretChamber_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.125, 1.5, 33.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_SecretChamber_S_1"]
+shape = SubResource("shape_119")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_SecretChamber_S_1"]
+mesh = SubResource("mesh_120")
+
+[node name="Wall_SecretChamber_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.125, 1.5, 26)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_SecretChamber_E_1"]
+shape = SubResource("shape_121")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_SecretChamber_E_1"]
+mesh = SubResource("mesh_122")
+
+[node name="Light_SecretChamber_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.125, 2.6, 26)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.35
+omni_range = 10.4
+
+; Spirit portal in the Cistern east wall: opens 5 s of every 16 s in the spirit world
+[node name="SpiritPortal" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.125, 1.5, 21)
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("portal")
+face_sign = -1.0
+
+[node name="Col" type="CollisionShape3D" parent="SpiritPortal"]
+shape = SubResource("shape_123")
+
+[node name="Mesh" type="MeshInstance3D" parent="SpiritPortal"]
+mesh = SubResource("mesh_124")
+
+[node name="WellSecret" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, 0, 27)
+script = ExtResource("well")
+
+[node name="OrbSecret1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5, 0.7, 21)
+script = ExtResource("orb")
+
+[node name="Bookshelf" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.45, 1, 25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Bookshelf"]
+shape = SubResource("shape_125")
+
+[node name="Mesh" type="MeshInstance3D" parent="Bookshelf"]
+mesh = SubResource("mesh_126")
+
+[node name="Crate6" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.4, 0.35, 32.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate6"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate6"]
+mesh = SubResource("mesh_51")
+
+; ===== Ambulatory =====
+[node name="Floor_Ambulatory" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Ambulatory"]
+shape = SubResource("shape_127")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Ambulatory"]
+mesh = SubResource("mesh_128")
+
+[node name="Ceiling_Ambulatory" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Ambulatory"]
+shape = SubResource("shape_129")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Ambulatory"]
+mesh = SubResource("mesh_130")
+
+[node name="Wall_Ambulatory_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5, 1.5, -1.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ambulatory_N_1"]
+shape = SubResource("shape_131")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ambulatory_N_1"]
+mesh = SubResource("mesh_132")
+
+[node name="Wall_Ambulatory_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.5, 1.5, -1.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ambulatory_N_2"]
+shape = SubResource("shape_133")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ambulatory_N_2"]
+mesh = SubResource("mesh_134")
+
+[node name="Wall_Ambulatory_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.5, 1.5, 1.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ambulatory_S_1"]
+shape = SubResource("shape_131")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ambulatory_S_1"]
+mesh = SubResource("mesh_132")
+
+[node name="Wall_Ambulatory_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.5, 1.5, 1.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Ambulatory_S_2"]
+shape = SubResource("shape_133")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Ambulatory_S_2"]
+mesh = SubResource("mesh_134")
+
+[node name="Light_Ambulatory_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.35
+omni_range = 8
+
+[node name="Light_Ambulatory_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.35
+omni_range = 8
+
+; ===== CorrRelay =====
+[node name="Floor_CorrRelay" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, -0.1, -5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrRelay"]
+shape = SubResource("shape_135")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrRelay"]
+mesh = SubResource("mesh_136")
+
+[node name="Ceiling_CorrRelay" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 3.05, -5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrRelay"]
+shape = SubResource("shape_137")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrRelay"]
+mesh = SubResource("mesh_138")
+
+[node name="Wall_CorrRelay_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.875, 1.5, -5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrRelay_W_1"]
+shape = SubResource("shape_139")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrRelay_W_1"]
+mesh = SubResource("mesh_140")
+
+[node name="Wall_CorrRelay_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.125, 1.5, -5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrRelay_E_1"]
+shape = SubResource("shape_139")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrRelay_E_1"]
+mesh = SubResource("mesh_140")
+
+[node name="Light_CorrRelay_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2.6, -5.625)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 6.95
+
+; ===== Nave =====
+[node name="Floor_Nave" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47, -0.1, -14.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Nave"]
+shape = SubResource("shape_141")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Nave"]
+mesh = SubResource("mesh_142")
+
+[node name="Ceiling_Nave" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47, 3.05, -14.25)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Nave"]
+shape = SubResource("shape_143")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Nave"]
+mesh = SubResource("mesh_144")
+
+[node name="Wall_Nave_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.875, 1.5, -9.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Nave_S_1"]
+shape = SubResource("shape_119")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Nave_S_1"]
+mesh = SubResource("mesh_120")
+
+[node name="Wall_Nave_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.125, 1.5, -9.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Nave_S_2"]
+shape = SubResource("shape_145")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Nave_S_2"]
+mesh = SubResource("mesh_146")
+
+[node name="Wall_Nave_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.875, 1.5, -14.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Nave_W_1"]
+shape = SubResource("shape_147")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Nave_W_1"]
+mesh = SubResource("mesh_148")
+
+[node name="Wall_Nave_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.125, 1.5, -14.375)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Nave_E_1"]
+shape = SubResource("shape_147")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Nave_E_1"]
+mesh = SubResource("mesh_148")
+
+[node name="Light_Nave_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 2.6, -14)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Nave_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 2.6, -14)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+; ===== ChoirWest =====
+[node name="Floor_ChoirWest" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.375, -0.1, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_ChoirWest"]
+shape = SubResource("shape_149")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_ChoirWest"]
+mesh = SubResource("mesh_150")
+
+[node name="Ceiling_ChoirWest" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.375, 3.05, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_ChoirWest"]
+shape = SubResource("shape_151")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_ChoirWest"]
+mesh = SubResource("mesh_152")
+
+[node name="Wall_ChoirWest_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.375, 1.5, -26.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirWest_N_1"]
+shape = SubResource("shape_153")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirWest_N_1"]
+mesh = SubResource("mesh_154")
+
+[node name="Wall_ChoirWest_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.125, 1.5, -18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirWest_S_1"]
+shape = SubResource("shape_155")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirWest_S_1"]
+mesh = SubResource("mesh_156")
+
+[node name="Wall_ChoirWest_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.25, 1.5, -18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirWest_S_2"]
+shape = SubResource("shape_97")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirWest_S_2"]
+mesh = SubResource("mesh_98")
+
+[node name="Wall_ChoirWest_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.875, 1.5, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirWest_W_1"]
+shape = SubResource("shape_157")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirWest_W_1"]
+mesh = SubResource("mesh_158")
+
+[node name="Wall_ChoirWest_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.875, 1.5, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirWest_E_1"]
+shape = SubResource("shape_157")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirWest_E_1"]
+mesh = SubResource("mesh_158")
+
+[node name="Light_ChoirWest_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.375, 2.6, -22.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 7.25
+
+; ===== ChoirEast =====
+[node name="Floor_ChoirEast" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.625, -0.1, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_ChoirEast"]
+shape = SubResource("shape_149")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_ChoirEast"]
+mesh = SubResource("mesh_150")
+
+[node name="Ceiling_ChoirEast" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.625, 3.05, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_ChoirEast"]
+shape = SubResource("shape_151")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_ChoirEast"]
+mesh = SubResource("mesh_152")
+
+[node name="Wall_ChoirEast_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.5, 1.5, -26.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirEast_N_1"]
+shape = SubResource("shape_159")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirEast_N_1"]
+mesh = SubResource("mesh_160")
+
+[node name="Wall_ChoirEast_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.125, 1.5, -18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirEast_S_1"]
+shape = SubResource("shape_161")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirEast_S_1"]
+mesh = SubResource("mesh_162")
+
+[node name="Wall_ChoirEast_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.375, 1.5, -18.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirEast_S_2"]
+shape = SubResource("shape_163")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirEast_S_2"]
+mesh = SubResource("mesh_164")
+
+[node name="Wall_ChoirEast_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.125, 1.5, -22.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_ChoirEast_E_1"]
+shape = SubResource("shape_157")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_ChoirEast_E_1"]
+mesh = SubResource("mesh_158")
+
+[node name="Light_ChoirEast_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.5, 2.6, -22.5)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 7.4
+
+; Relay: first brazier opens window A, the brazier behind A opens window B
+[node name="BrazierRelay1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.5, 0, -11.5)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../ShutterRelayA")])
+
+[node name="ShutterRelayA" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 1.5, -18.875)
+script = ExtResource("pdoor")
+required_plates = 1
+door_size = Vector3(1, 3, 0.25)
+stays_open = true
+
+[node name="Col" type="CollisionShape3D" parent="ShutterRelayA"]
+shape = SubResource("shape_165")
+
+[node name="Mesh" type="MeshInstance3D" parent="ShutterRelayA"]
+mesh = SubResource("mesh_166")
+
+[node name="BrazierRelay2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.2, 0, -25.2)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../ShutterRelayB")])
+
+[node name="ShutterRelayB" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 1.5, -18.875)
+script = ExtResource("pdoor")
+required_plates = 1
+door_size = Vector3(1, 3, 0.25)
+stays_open = true
+
+[node name="Col" type="CollisionShape3D" parent="ShutterRelayB"]
+shape = SubResource("shape_165")
+
+[node name="Mesh" type="MeshInstance3D" parent="ShutterRelayB"]
+mesh = SubResource("mesh_166")
+
+[node name="GreatBrazierRelay" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, -25)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../SanctumGate"), NodePath("../IndicatorRelay")])
+great = true
+
+[node name="WellNave" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.5, 0, -11.2)
+script = ExtResource("well")
+
+[node name="OrbNave1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53, 0.7, -16.5)
+script = ExtResource("orb")
+
+[node name="Workbench2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.6, 0.425, -14.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Workbench2"]
+shape = SubResource("shape_73")
+
+[node name="Mesh" type="MeshInstance3D" parent="Workbench2"]
+mesh = SubResource("mesh_74")
+
+[node name="Crate7" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.4, 0.35, -10.6)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate7"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate7"]
+mesh = SubResource("mesh_51")
+
+; ===== CorrCrypt =====
+[node name="Floor_CorrCrypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, -0.1, 5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_CorrCrypt"]
+shape = SubResource("shape_135")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_CorrCrypt"]
+mesh = SubResource("mesh_136")
+
+[node name="Ceiling_CorrCrypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 3.05, 5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_CorrCrypt"]
+shape = SubResource("shape_137")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_CorrCrypt"]
+mesh = SubResource("mesh_138")
+
+[node name="Wall_CorrCrypt_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.875, 1.5, 5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrCrypt_W_1"]
+shape = SubResource("shape_139")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrCrypt_W_1"]
+mesh = SubResource("mesh_140")
+
+[node name="Wall_CorrCrypt_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.125, 1.5, 5.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CorrCrypt_E_1"]
+shape = SubResource("shape_139")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CorrCrypt_E_1"]
+mesh = SubResource("mesh_140")
+
+[node name="Light_CorrCrypt_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45, 2.6, 5.625)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 6.95
+
+; ===== Crypt =====
+[node name="Floor_Crypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -0.1, 17)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Crypt"]
+shape = SubResource("shape_167")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Crypt"]
+mesh = SubResource("mesh_168")
+
+[node name="Ceiling_Crypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 3.05, 17)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Crypt"]
+shape = SubResource("shape_169")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Crypt"]
+mesh = SubResource("mesh_170")
+
+[node name="Wall_Crypt_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.875, 1.5, 9.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Crypt_N_1"]
+shape = SubResource("shape_95")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Crypt_N_1"]
+mesh = SubResource("mesh_96")
+
+[node name="Wall_Crypt_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.125, 1.5, 9.875)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Crypt_N_2"]
+shape = SubResource("shape_171")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Crypt_N_2"]
+mesh = SubResource("mesh_172")
+
+[node name="Wall_Crypt_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 1.5, 24.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Crypt_S_1"]
+shape = SubResource("shape_173")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Crypt_S_1"]
+mesh = SubResource("mesh_174")
+
+[node name="Wall_Crypt_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 41.875, 1.5, 17)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Crypt_W_1"]
+shape = SubResource("shape_121")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Crypt_W_1"]
+mesh = SubResource("mesh_122")
+
+[node name="Wall_Crypt_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.125, 1.5, 17)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Crypt_E_1"]
+shape = SubResource("shape_121")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Crypt_E_1"]
+mesh = SubResource("mesh_122")
+
+[node name="Light_Crypt_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5, 2.6, 13)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Crypt_2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 2.6, 13)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Crypt_3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5, 2.6, 20)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+[node name="Light_Crypt_4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.5, 2.6, 20)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.5
+omni_range = 8
+
+; Pit: rail wall with a slot only the snake fits through (0.55 m)
+[node name="Wall_CryptPit_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.7375, 1.5, 15.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_N_1"]
+shape = SubResource("shape_175")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_N_1"]
+mesh = SubResource("mesh_176")
+
+[node name="Wall_CryptPit_N_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.2625, 1.5, 15.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_N_2"]
+shape = SubResource("shape_175")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_N_2"]
+mesh = SubResource("mesh_176")
+
+[node name="Wall_CryptPit_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.875, 1.5, 15.8)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_W_1"]
+shape = SubResource("shape_177")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_W_1"]
+mesh = SubResource("mesh_178")
+
+[node name="Wall_CryptPit_W_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.875, 1.5, 20.925)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_W_2"]
+shape = SubResource("shape_179")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_W_2"]
+mesh = SubResource("mesh_180")
+
+[node name="Wall_CryptPit_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.125, 1.5, 19.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_E_1"]
+shape = SubResource("shape_147")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_E_1"]
+mesh = SubResource("mesh_148")
+
+[node name="Wall_CryptPit_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.625, 1.5, 19.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_S_1"]
+shape = SubResource("shape_181")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_S_1"]
+mesh = SubResource("mesh_182")
+
+[node name="Wall_CryptPit_S_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.375, 1.5, 19.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_CryptPit_S_2"]
+shape = SubResource("shape_181")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_CryptPit_S_2"]
+mesh = SubResource("mesh_182")
+
+[node name="CrackedWallPit" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.875, 1.5, 17.1)
+collision_layer = 129
+collision_mask = 0
+script = ExtResource("bwall")
+
+[node name="WallMesh" type="MeshInstance3D" parent="CrackedWallPit"]
+mesh = SubResource("mesh_87")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CrackedWallPit"]
+shape = SubResource("shape_88")
+
+; Plate inside the pit holds the tomb door open (closes when released)
+[node name="PlateCrypt" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 0, 16.4)
+script = ExtResource("plate")
+target_path = NodePath("../DoorTomb")
+plate_size = Vector3(1, 0.05, 2)
+
+[node name="DoorTomb" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 1.5, 19.125)
+script = ExtResource("pdoor")
+required_plates = 1
+door_size = Vector3(1.5, 3, 0.25)
+stays_open = false
+
+[node name="Col" type="CollisionShape3D" parent="DoorTomb"]
+shape = SubResource("shape_102")
+
+[node name="Mesh" type="MeshInstance3D" parent="DoorTomb"]
+mesh = SubResource("mesh_183")
+
+[node name="GreatBrazierCrypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 0, 22.2)
+script = ExtResource("brazier")
+targets = Array[NodePath]([NodePath("../SanctumGate"), NodePath("../IndicatorCrypt")])
+great = true
+
+[node name="Light_CryptPit" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 2.6, 17.2)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.3
+omni_range = 5
+
+[node name="Light_CryptTomb" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49, 2.6, 21.6)
+light_color = Color(0.6, 0.5, 0.9, 1)
+light_energy = 0.3
+omni_range = 5
+
+[node name="WellCrypt" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43, 0, 12.5)
+script = ExtResource("well")
+
+[node name="OrbCrypt1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56, 0.7, 20)
+script = ExtResource("orb")
+
+[node name="Crate8" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.6, 0.35, 23.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate8"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate8"]
+mesh = SubResource("mesh_51")
+
+[node name="SideTable" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5, 0.25, 23.5)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="SideTable"]
+shape = SubResource("shape_184")
+
+[node name="Mesh" type="MeshInstance3D" parent="SideTable"]
+mesh = SubResource("mesh_185")
+
+; ===== Antechamber =====
+[node name="Floor_Antechamber" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Antechamber"]
+shape = SubResource("shape_186")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Antechamber"]
+mesh = SubResource("mesh_187")
+
+[node name="Ceiling_Antechamber" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Antechamber"]
+shape = SubResource("shape_188")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Antechamber"]
+mesh = SubResource("mesh_189")
+
+[node name="Wall_Antechamber_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 1.5, -4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_N_1"]
+shape = SubResource("shape_190")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_N_1"]
+mesh = SubResource("mesh_191")
+
+[node name="Wall_Antechamber_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 1.5, 4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_S_1"]
+shape = SubResource("shape_190")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_S_1"]
+mesh = SubResource("mesh_191")
+
+[node name="Wall_Antechamber_W_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.875, 1.5, -2.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_W_1"]
+shape = SubResource("shape_99")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_W_1"]
+mesh = SubResource("mesh_100")
+
+[node name="Wall_Antechamber_W_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.875, 1.5, 2.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_W_2"]
+shape = SubResource("shape_99")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_W_2"]
+mesh = SubResource("mesh_100")
+
+[node name="Wall_Antechamber_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.125, 1.5, -2.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_E_1"]
+shape = SubResource("shape_99")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_E_1"]
+mesh = SubResource("mesh_100")
+
+[node name="Wall_Antechamber_E_2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.125, 1.5, 2.625)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Antechamber_E_2"]
+shape = SubResource("shape_99")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Antechamber_E_2"]
+mesh = SubResource("mesh_100")
+
+[node name="Light_Antechamber_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.45
+omni_range = 6.8
+
+; Sanctum gate: opens when any 3 of the 4 great braziers are lit
+[node name="SanctumGate" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.125, 1.5, 0)
+script = ExtResource("pdoor")
+required_plates = 3
+door_size = Vector3(0.25, 3, 2.5)
+stays_open = true
+
+[node name="Col" type="CollisionShape3D" parent="SanctumGate"]
+shape = SubResource("shape_192")
+
+[node name="Mesh" type="MeshInstance3D" parent="SanctumGate"]
+mesh = SubResource("mesh_193")
+
+; ===== Sanctum =====
+[node name="Floor_Sanctum" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.25, -0.1, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Floor_Sanctum"]
+shape = SubResource("shape_194")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor_Sanctum"]
+mesh = SubResource("mesh_195")
+
+[node name="Ceiling_Sanctum" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.25, 3.05, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Ceiling_Sanctum"]
+shape = SubResource("shape_196")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling_Sanctum"]
+mesh = SubResource("mesh_197")
+
+[node name="Wall_Sanctum_N_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.125, 1.5, -4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Sanctum_N_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Sanctum_N_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Sanctum_S_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.125, 1.5, 4.125)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Sanctum_S_1"]
+shape = SubResource("shape_42")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Sanctum_S_1"]
+mesh = SubResource("mesh_43")
+
+[node name="Wall_Sanctum_E_1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.125, 1.5, 0)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Wall_Sanctum_E_1"]
+shape = SubResource("shape_44")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall_Sanctum_E_1"]
+mesh = SubResource("mesh_45")
+
+[node name="Light_Sanctum_1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.125, 2.6, 0)
+light_color = Color(0.85, 0.8, 1, 1)
+light_energy = 0.6
+omni_range = 6.8
+
+[node name="Pillar" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.8, 0.75, -3.2)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Pillar"]
+shape = SubResource("shape_198")
+
+[node name="Mesh" type="MeshInstance3D" parent="Pillar"]
+mesh = SubResource("mesh_199")
+
+[node name="Crate9" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.8, 0.35, 3.2)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate9"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate9"]
+mesh = SubResource("mesh_51")
+
+[node name="Crate10" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.35, -1.4)
+collision_mask = 0
+
+[node name="Col" type="CollisionShape3D" parent="Crate10"]
+shape = SubResource("shape_50")
+
+[node name="Mesh" type="MeshInstance3D" parent="Crate10"]
+mesh = SubResource("mesh_51")
+
+[node name="LevelCompleteTrigger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 1, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("lcomp")
+next_level = "res://scenes/level4.tscn"
+unlock_type = "phase_walk"
+
+[node name="TriggerCol" type="CollisionShape3D" parent="LevelCompleteTrigger"]
+shape = SubResource("shape_200")
+
+[node name="Light_SanctumGlow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, 1.5, 0)
+light_color = Color(1, 0.75, 0.45, 1)
+light_energy = 0.8
+omni_range = 5
+
+[node name="HouseDecor" type="Node3D" parent="."]
+script = ExtResource("decor")
+
+[node name="HouseProps" type="Node3D" parent="."]
+script = ExtResource("props")
+
+[node name="LevelBounds" type="Node3D" parent="."]
+script = ExtResource("bounds")
+bound_x_min = -4.0
+bound_x_max = 64.0
+bound_z_min = -32.0
+bound_z_max = 34.0
+bound_y_min = -1.0
+bound_y_max = 6.0
+
+; Player spawns on the landing facing east toward the Vestibule
+[node name="Player" parent="." instance=ExtResource("player")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.5, 0, 0)

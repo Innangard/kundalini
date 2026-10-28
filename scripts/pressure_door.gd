@@ -1,0 +1,63 @@
+extends StaticBody3D
+
+# Pressure door — opens when enough pressure plates are active
+# Closes when plates deactivate (unless stays_open is true)
+
+@export var required_plates: int = 1
+@export var door_size: Vector3 = Vector3(0.25, 2.5, 1.75)
+@export var stays_open: bool = false
+
+var plates_active: int = 0
+var is_open: bool = false
+var closed_y: float
+
+func _ready():
+	collision_layer = 1
+	collision_mask = 0
+	closed_y = position.y
+
+	# Create mesh if not already provided as a child in the scene
+	if not has_node("Mesh"):
+		var mesh_inst = MeshInstance3D.new()
+		var box = BoxMesh.new()
+		box.size = door_size
+		var mat = StandardMaterial3D.new()
+		mat.albedo_color = Color(0.4, 0.2, 0.35)
+		mat.emission_enabled = true
+		mat.emission = Color(0.15, 0.05, 0.12)
+		mat.emission_energy_multiplier = 0.3
+		box.material = mat
+		mesh_inst.mesh = box
+		mesh_inst.name = "Mesh"
+		add_child(mesh_inst)
+
+	# Create collision if not already provided as a child in the scene
+	if not has_node("Col"):
+		var col = CollisionShape3D.new()
+		var shape = BoxShape3D.new()
+		shape.size = door_size
+		col.shape = shape
+		col.name = "Col"
+		add_child(col)
+
+func plate_activated():
+	plates_active += 1
+	if plates_active >= required_plates and not is_open:
+		_open_door()
+
+func plate_deactivated():
+	if stays_open:
+		return
+	plates_active = max(plates_active - 1, 0)
+	if plates_active < required_plates and is_open:
+		_close_door()
+
+func _open_door():
+	is_open = true
+	var tween = create_tween()
+	tween.tween_property(self, "position:y", closed_y + 3.0, 1.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+
+func _close_door():
+	is_open = false
+	var tween = create_tween()
+	tween.tween_property(self, "position:y", closed_y, 1.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)

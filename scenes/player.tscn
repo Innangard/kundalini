@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://ck2vm1c8jb3kg"]
+
+[ext_resource type="Script" uid="uid://dvq5oemixgeh" path="res://scripts/player.gd" id="1_player"]
+[ext_resource type="Script" uid="uid://654iovniaxc4" path="res://scripts/snake.gd" id="2_snake"]
+
+[sub_resource type="CapsuleShape3D" id="shape_player"]
+radius = 0.3
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="mat_player"]
+albedo_color = Color(0.25, 0.65, 0.35, 1)
+
+[sub_resource type="CapsuleMesh" id="mesh_torso"]
+material = SubResource("mat_player")
+radius = 0.22
+height = 0.9
+
+[sub_resource type="StandardMaterial3D" id="mat_skin"]
+albedo_color = Color(0.85, 0.7, 0.55, 1)
+
+[sub_resource type="SphereMesh" id="mesh_player_head"]
+material = SubResource("mat_skin")
+radius = 0.16
+height = 0.5
+
+[sub_resource type="BoxMesh" id="mesh_arm"]
+material = SubResource("mat_player")
+size = Vector3(0.1, 0.65, 0.1)
+
+[sub_resource type="BoxMesh" id="mesh_leg"]
+material = SubResource("mat_player")
+size = Vector3(0.13, 0.55, 0.13)
+
+[sub_resource type="SphereShape3D" id="shape_head"]
+radius = 0.15
+
+[sub_resource type="StandardMaterial3D" id="mat_head"]
+albedo_color = Color(0.9, 0.45, 0.1, 1)
+
+[sub_resource type="SphereMesh" id="mesh_head"]
+material = SubResource("mat_head")
+radius = 0.15
+
+[node name="Player" type="CharacterBody3D" unique_id=733148103]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_player")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="." unique_id=2046127017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("shape_player")
+
+[node name="Torso" type="MeshInstance3D" parent="." unique_id=1259268557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("mesh_torso")
+
+[node name="PlayerHead" type="MeshInstance3D" parent="." unique_id=635780869]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0049862266, 1.3469816, 1.1920929e-07)
+mesh = SubResource("mesh_player_head")
+
+[node name="LeftArm" type="MeshInstance3D" parent="." unique_id=895112106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, 0.75, 0)
+mesh = SubResource("mesh_arm")
+
+[node name="RightArm" type="MeshInstance3D" parent="." unique_id=1219357532]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32, 0.75, 0)
+mesh = SubResource("mesh_arm")
+
+[node name="LeftLeg" type="MeshInstance3D" parent="." unique_id=86808703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.275, 0)
+mesh = SubResource("mesh_leg")
+
+[node name="RightLeg" type="MeshInstance3D" parent="." unique_id=473307437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.275, 0)
+mesh = SubResource("mesh_leg")
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1406226116]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=119750365]
+transform = Transform3D(1, 0, 0, 0, 0.9663415, 0.257263, 0, -0.257263, 0.9663415, 0.43441558, 0.18569493, 1.2121909)
+fov = 64.61852
+
+[node name="Snake" type="Node3D" parent="." unique_id=782634617]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.45, 0.15)
+script = ExtResource("2_snake")
+
+[node name="SnakeHead" type="CharacterBody3D" parent="Snake" unique_id=1245590146]
+top_level = true
+collision_layer = 4
+collision_mask = 9
+
+[node name="HeadCollision" type="CollisionShape3D" parent="Snake/SnakeHead" unique_id=1796226471]
+shape = SubResource("shape_head")
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Snake/SnakeHead" unique_id=218382066]
+mesh = SubResource("mesh_head")

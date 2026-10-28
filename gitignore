@@ -1,0 +1,29 @@
+# Godot 4 editor cache and imported assets (regenerated on open)
+.godot/
+
+# Godot 3 style import folder, in case it ever shows up
+.import/
+
+# Android export template folder
+/android/
+
+# Exported builds
+builds/
+exports/
+
+# Stray archives (patch zips, backups)
+*.zip
+
+# Movie Maker recordings
+*.avi
+*.ogv
+
+# Temporary and backup files
+*.tmp
+*.bak
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
